@@ -1,0 +1,33 @@
+<div
+  *ngIf="dataLoaded == false"
+  class="d-flex justify-content-center position-relative"
+  style="height: 15vw"
+>
+  <div
+    class="spinner-border text-info align-self-center position-absolute top-50 start-50"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<table *ngIf="dataLoaded == true" class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Urun ismi</th>
+      <th scope="col">Kategori ID</th>
+      <th scope="col">Birim Fiyat</th>
+      <th scope="col">Stok Adedi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.productID }}</td>
+      <td>{{ product.productName }}</td>
+      <td>{{ product.categoryID }}</td>
+      <td>{{ product.unitPrice }}</td>
+      <td>{{ product.unitsInStock }}</td>
+    </tr>
+  </tbody>
+</table>

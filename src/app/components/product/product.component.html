@@ -11,23 +11,47 @@
   </div>
 </div>
 
-<table *ngIf="dataLoaded == true" class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Urun ismi</th>
-      <th scope="col">Kategori ID</th>
-      <th scope="col">Birim Fiyat</th>
-      <th scope="col">Stok Adedi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of products">
-      <td>{{ product.productID }}</td>
-      <td>{{ product.productName }}</td>
-      <td>{{ product.categoryID }}</td>
-      <td>{{ product.unitPrice }}</td>
-      <td>{{ product.unitsInStock }}</td>
-    </tr>
-  </tbody>
-</table>
+<div *ngIf="dataLoaded == true">
+  <div class="mb-3">
+    <label for="filterText" class="form-label">Urun Ara</label>
+    <input
+      type="text"
+      [(ngModel)]="filterText"
+      class="form-control"
+      id="filterText"
+      placeholder="arama ifadesini giriniz"
+    />
+  </div>
+  <div *ngIf="filterText" class="alert alert-success">
+    {{ filterText }} aradiniz.
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Urun ismi</th>
+        <th scope="col">Kategori ID</th>
+        <th scope="col">Birim Fiyat</th>
+        <th scope="col">KDV'li Fiyat</th>
+        <th scope="col">Stok Adedi</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products | filterPipe: filterText">
+        <td>{{ product.productID }}</td>
+        <td>{{ product.productName | uppercase }}</td>
+        <td>{{ product.categoryID }}</td>
+        <td>{{ product.unitPrice | currency }}</td>
+        <td>{{ product.unitPrice | vatAdded: 10 | currency }}</td>
+        <td>{{ product.unitsInStock }}</td>
+        <td>
+          <button (click)="addToCart(product)" type="button" class="btn btn-success">
+            Sepete ekle
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
